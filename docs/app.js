@@ -24,10 +24,14 @@
     dom.eventSearchInput = document.getElementById("event-search-input");
     dom.eventList = document.getElementById("event-list");
     dom.eventDetails = document.getElementById("event-details");
+    dom.eventBoundsView = document.getElementById("event-bounds-view");
     dom.variableBoundsTable = document.getElementById("variable-bounds-table");
-    dom.lpStateView = document.getElementById("lp-state-view");
+    dom.lpPoolView = document.getElementById("lp-pool-view");
     dom.setupSummary = document.getElementById("setup-summary");
     dom.finalResponseSummary = document.getElementById("final-response-summary");
+    dom.modelVariablesView = document.getElementById("model-variables-view");
+    dom.modelConstraintsView = document.getElementById("model-constraints-view");
+    dom.modelObjectiveView = document.getElementById("model-objective-view");
     dom.inputModelSummary = document.getElementById("input-model-summary");
     dom.inputModelJson = document.getElementById("input-model-json");
     dom.presolvedModelSummary = document.getElementById("presolved-model-summary");
@@ -279,12 +283,14 @@
   }
 
   function render() {
+    renderInputOverview();
     renderSummary();
     renderChart();
     renderEventList();
     renderEventDetails();
+    renderEventBounds();
     renderVariableBounds();
-    renderLpState();
+    renderLpPool();
     renderSetupSummary();
     renderFinalResponse();
     renderModels();
@@ -322,6 +328,139 @@
     dom.exampleNote.innerHTML = noteLines
       .map((line) => `<div>${escapeHtml(line)}</div>`)
       .join("");
+  }
+
+  function renderInputOverview() {
+    const model = state.trace?.input_model;
+    if (!model) {
+      dom.modelVariablesView.textContent =
+        "Load a trace to inspect the input variables.";
+      dom.modelVariablesView.className = "empty-state";
+      dom.modelConstraintsView.textContent =
+        "Load a trace to inspect the input constraints.";
+      dom.modelConstraintsView.className = "empty-state";
+      dom.modelObjectiveView.textContent =
+        "Load a trace to inspect the objective.";
+      dom.modelObjectiveView.className = "empty-state";
+      return;
+    }
+
+    const variables = Array.isArray(model.variables) ? model.variables : [];
+    const constraints = Array.isArray(model.constraints) ? model.constraints : [];
+
+    if (variables.length === 0) {
+      dom.modelVariablesView.className = "empty-state";
+      dom.modelVariablesView.textContent = "No variables are described in this model.";
+    } else {
+      dom.modelVariablesView.className = "";
+      dom.modelVariablesView.innerHTML = `
+        <div class="table-scroll">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>Var</th>
+                <th>Name</th>
+                <th>Domain</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${variables
+                .map(
+                  (variable, index) => `
+                    <tr>
+                      <td>${escapeHtml(`v${index}`)}</td>
+                      <td>${escapeHtml(variable.name || `v${index}`)}</td>
+                      <td class="mono">${escapeHtml(
+                        formatDomainIntervals(variable.domain)
+                      )}</td>
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    if (constraints.length === 0) {
+      dom.modelConstraintsView.className = "empty-state";
+      dom.modelConstraintsView.textContent =
+        "No constraints are described in this model.";
+    } else {
+      dom.modelConstraintsView.className = "";
+      dom.modelConstraintsView.innerHTML = `
+        <div class="table-scroll">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Display</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${constraints
+                .map((constraint, index) => {
+                  const description = describeConstraint(constraint, variables);
+                  return `
+                    <tr>
+                      <td>${escapeHtml(String(index))}</td>
+                      <td>${escapeHtml(description.type)}</td>
+                      <td class="mono">${escapeHtml(description.display)}</td>
+                    </tr>
+                  `;
+                })
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    dom.modelObjectiveView.className = "";
+    dom.modelObjectiveView.innerHTML = `
+      <div class="objective-box mono">${escapeHtml(
+        describeObjective(model.objective, variables)
+      )}</div>
+    `;
+  }
+
+  function renderEventBounds() {
+    const event = currentEvent();
+    if (!event) {
+      dom.eventBoundsView.className = "empty-state";
+      dom.eventBoundsView.textContent =
+        "No event selected, so no bounds snapshot is available.";
+      return;
+    }
+
+    const boundsRows = [
+      ["Best bound", formatValue(parseMaybeNumber(event.snapshotBounds.best_bound))],
+      [
+        "Best solution",
+        formatValue(parseMaybeNumber(event.snapshotBounds.best_solution_objective)),
+      ],
+      [
+        "Scaled objective lb",
+        formatValue(parseMaybeNumber(event.snapshotBounds.scaled_objective_lb)),
+      ],
+      [
+        "Scaled objective ub",
+        formatValue(parseMaybeNumber(event.snapshotBounds.scaled_objective_ub)),
+      ],
+      [
+        "Inner objective lb",
+        formatValue(parseMaybeNumber(event.snapshotBounds.inner_objective_lb)),
+      ],
+      [
+        "Inner objective ub",
+        formatValue(parseMaybeNumber(event.snapshotBounds.inner_objective_ub)),
+      ],
+    ];
+
+    dom.eventBoundsView.className = "";
+    dom.eventBoundsView.innerHTML = renderKeyValueTable(boundsRows);
   }
 
   function renderChart() {
@@ -514,32 +653,15 @@
       ["Deterministic time", formatValue(parseMaybeNumber(event.raw.deterministic_time))],
     ];
 
-    const boundsRows = [
-      ["Best bound", formatValue(parseMaybeNumber(event.snapshotBounds.best_bound))],
-      [
-        "Best solution",
-        formatValue(parseMaybeNumber(event.snapshotBounds.best_solution_objective)),
-      ],
-      [
-        "Scaled objective lb",
-        formatValue(parseMaybeNumber(event.snapshotBounds.scaled_objective_lb)),
-      ],
-      [
-        "Scaled objective ub",
-        formatValue(parseMaybeNumber(event.snapshotBounds.scaled_objective_ub)),
-      ],
-      [
-        "Inner objective lb",
-        formatValue(parseMaybeNumber(event.snapshotBounds.inner_objective_lb)),
-      ],
-      [
-        "Inner objective ub",
-        formatValue(parseMaybeNumber(event.snapshotBounds.inner_objective_ub)),
-      ],
-    ];
-
     dom.eventDetails.className = "event-details";
     dom.eventDetails.innerHTML = `
+      <div class="selected-event-topline">
+        <span class="badge phase-${escapeHtml(event.raw.phase || "unknown")}">${escapeHtml(
+      event.raw.phase || "unknown"
+    )}</span>
+        <span class="badge">${escapeHtml(event.raw.kind || "unknown")}</span>
+        <span class="muted">#${escapeHtml(String(event.raw.index ?? event.position))}</span>
+      </div>
       <h3>${escapeHtml(event.title)}</h3>
       <p>${escapeHtml(event.raw.message || "")}</p>
       ${renderKeyValueTable(metadataRows)}
@@ -549,8 +671,6 @@
           ? Object.entries(event.fieldMap)
           : [["-", "No event-specific fields"]]
       )}
-      <h3>Bounds Snapshot</h3>
-      ${renderKeyValueTable(boundsRows)}
     `;
   }
 
@@ -604,12 +724,12 @@
     `;
   }
 
-  function renderLpState() {
+  function renderLpPool() {
     const event = currentEvent();
     const lpState = event ? event.snapshotLpState : null;
     if (!lpState) {
-      dom.lpStateView.innerHTML =
-        '<div class="empty-state">This event does not carry LP state.</div>';
+      dom.lpPoolView.innerHTML =
+        '<div class="empty-state">This event does not carry LP pool information.</div>';
       return;
     }
 
@@ -678,17 +798,31 @@
 
     const summaryRows = [
       ["Component", lpState.component_id],
+      ["Pool rows", component ? component.rows.length : "-"],
       ["Managed constraints", lpState.managed_constraints ?? "-"],
       ["Active rows", lpState.active_rows ?? "-"],
+      [
+        "Highlighted rows",
+        lpState.highlighted_row_indices.length > 0
+          ? lpState.highlighted_row_indices.join(", ")
+          : "-",
+      ],
+      [
+        "Candidate rows",
+        lpState.candidate_row_indices.length > 0
+          ? lpState.candidate_row_indices.join(", ")
+          : "-",
+      ],
       ["Columns", component ? component.num_columns : "-"],
       ["Objective defined", component ? String(component.objective_defined) : "-"],
     ];
 
-    dom.lpStateView.innerHTML = `
+    dom.lpPoolView.innerHTML = `
       ${renderKeyValueTable(summaryRows)}
       <div class="muted" style="margin: 0.8rem 0 0.5rem;">
-        Highlighted rows show the current focus of the LP event. Candidate rows
-        are violated rows considered for addition.
+        The LP pool lists every row currently known to the LP component.
+        Highlighted rows show the current focus of the event. Candidate rows are
+        violated rows considered for addition.
       </div>
       ${rowsHtml}
     `;
@@ -743,6 +877,153 @@
   function renderRawLog() {
     dom.rawLogView.textContent =
       state.sourceMeta?.log || "No raw log bundled for this trace.";
+  }
+
+  function describeConstraint(constraint, variables) {
+    const type = detectConstraintType(constraint);
+    if (type === "linear") {
+      return {
+        type: "linear",
+        display: formatLinearConstraint(constraint.linear, variables),
+      };
+    }
+    if (type === "int_prod") {
+      const intProd = constraint.int_prod || constraint.intProd;
+      const target = formatProtoLinearExpr(intProd?.target, variables);
+      const factors = Array.isArray(intProd?.exprs)
+        ? intProd.exprs.map((expr) => formatProtoLinearExpr(expr, variables))
+        : [];
+      return {
+        type: "int_prod",
+        display:
+          factors.length > 0
+            ? `${target} = ${factors.join(" * ")}`
+            : "product constraint",
+      };
+    }
+    return {
+      type,
+      display: constraint.name
+        ? `${constraint.name} (${type})`
+        : `${type} constraint`,
+    };
+  }
+
+  function detectConstraintType(constraint) {
+    if (!constraint || typeof constraint !== "object") return "unknown";
+    const excluded = new Set(["name", "enforcement_literal", "enforcementLiteral"]);
+    const key = Object.keys(constraint).find((candidate) => !excluded.has(candidate));
+    return key || "unknown";
+  }
+
+  function describeObjective(objective, variables) {
+    if (!objective) return "No objective is defined.";
+    const scalingFactor = parseMaybeNumber(objective.scaling_factor);
+    const sign = scalingFactor !== null && scalingFactor < 0 ? -1 : 1;
+    const objectiveForDisplay =
+      sign < 0
+        ? {
+            ...objective,
+            coeffs: Array.isArray(objective.coeffs)
+              ? objective.coeffs.map((coeff) => {
+                  const value = parseMaybeNumber(coeff);
+                  return value !== null ? String(-value) : `-(${coeff})`;
+                })
+              : [],
+          }
+        : objective;
+    const expr = formatProtoLinearExpr(objectiveForDisplay, variables);
+    const direction = sign < 0 ? "maximize" : "minimize";
+    return `${direction} ${expr}`;
+  }
+
+  function formatLinearConstraint(linear, variables) {
+    if (!linear) return "linear constraint";
+    const expression = formatProtoLinearExpr(linear, variables);
+    const domain = Array.isArray(linear.domain) ? linear.domain : [];
+    if (domain.length === 2) {
+      const [lower, upper] = domain;
+      if (!isNegativeInfinity(lower) && !isPositiveInfinity(upper)) {
+        if (String(lower) === String(upper)) return `${expression} = ${lower}`;
+        return `${lower} <= ${expression} <= ${upper}`;
+      }
+      if (!isNegativeInfinity(lower)) return `${expression} >= ${lower}`;
+      if (!isPositiveInfinity(upper)) return `${expression} <= ${upper}`;
+      return expression;
+    }
+    if (domain.length > 0) {
+      return `${expression} in ${formatDomainIntervals(domain)}`;
+    }
+    return expression;
+  }
+
+  function formatProtoLinearExpr(expr, variables) {
+    if (!expr) return "0";
+    const vars = Array.isArray(expr.vars) ? expr.vars : [];
+    const coeffs = Array.isArray(expr.coeffs) ? expr.coeffs : [];
+    const terms = [];
+    for (let index = 0; index < vars.length; ++index) {
+      const variableIndex = Number(vars[index]);
+      const coeff = coeffs[index] ?? "1";
+      terms.push({
+        coeff: String(coeff),
+        token: formatVariableToken(variableIndex, variables),
+      });
+    }
+    if (terms.length === 0) {
+      return "0";
+    }
+
+    return terms
+      .map((term, index) => {
+        const coeffValue = parseMaybeNumber(term.coeff);
+        const absoluteCoeff =
+          coeffValue !== null ? Math.abs(coeffValue) : term.coeff.replace(/^-/, "");
+        const isNegative =
+          coeffValue !== null ? coeffValue < 0 : String(term.coeff).startsWith("-");
+        const prefix = index === 0 ? (isNegative ? "-" : "") : isNegative ? " - " : " + ";
+        if (String(absoluteCoeff) === "1") {
+          return `${prefix}${term.token}`;
+        }
+        return `${prefix}${absoluteCoeff}*${term.token}`;
+      })
+      .join("");
+  }
+
+  function formatVariableToken(index, variables) {
+    if (!Number.isFinite(index) || index < 0) return "?";
+    const variable = Array.isArray(variables) ? variables[index] : null;
+    return variable?.name || `v${index}`;
+  }
+
+  function formatDomainIntervals(domain) {
+    if (!Array.isArray(domain) || domain.length === 0) return "-";
+    const intervals = [];
+    for (let index = 0; index < domain.length; index += 2) {
+      const lower = domain[index];
+      const upper = domain[index + 1];
+      if (upper === undefined) break;
+      if (String(lower) === String(upper)) {
+        intervals.push(String(lower));
+      } else if (isNegativeInfinity(lower) && isPositiveInfinity(upper)) {
+        intervals.push("(-inf, +inf)");
+      } else if (isNegativeInfinity(lower)) {
+        intervals.push(`(-inf, ${upper}]`);
+      } else if (isPositiveInfinity(upper)) {
+        intervals.push(`[${lower}, +inf)`);
+      } else {
+        intervals.push(`[${lower}, ${upper}]`);
+      }
+    }
+    return intervals.join(" U ");
+  }
+
+  function isNegativeInfinity(value) {
+    return String(value) === "-9223372036854775808";
+  }
+
+  function isPositiveInfinity(value) {
+    return String(value) === "9223372036854775807";
   }
 
   function renderModelSummary(model) {
@@ -868,8 +1149,7 @@
   }
 
   function formatDomain(domain) {
-    if (!Array.isArray(domain) || domain.length === 0) return "-";
-    return domain.map((item) => String(item)).join(", ");
+    return formatDomainIntervals(domain);
   }
 
   function parseMaybeNumber(value) {

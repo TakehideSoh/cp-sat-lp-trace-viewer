@@ -30,6 +30,34 @@
     </header>
 
     <main class="page">
+      <section class="panel model-overview-panel">
+        <div class="panel-header">
+          <h2>Given Variables And Constraints</h2>
+        </div>
+        <div class="model-overview-grid">
+          <div>
+            <div class="panel-subheader"><h3>Variables</h3></div>
+            <div id="model-variables-view" class="empty-state">
+              Load a trace to inspect the input variables.
+            </div>
+          </div>
+          <div class="stack-compact">
+            <div>
+              <div class="panel-subheader"><h3>Constraints</h3></div>
+              <div id="model-constraints-view" class="empty-state">
+                Load a trace to inspect the input constraints.
+              </div>
+            </div>
+            <div>
+              <div class="panel-subheader"><h3>Objective</h3></div>
+              <div id="model-objective-view" class="empty-state">
+                Load a trace to inspect the objective.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="panel summary-panel">
         <div class="summary-grid">
           <div class="summary-card">
@@ -60,23 +88,6 @@
         <div class="example-note" id="example-note"></div>
       </section>
 
-      <section class="panel">
-        <div class="panel-header">
-          <h2>Objective Trajectory</h2>
-          <div class="playback-controls">
-            <button id="prev-event-button" type="button">Prev</button>
-            <button id="play-pause-button" type="button">Play</button>
-            <button id="next-event-button" type="button">Next</button>
-          </div>
-        </div>
-        <div id="trajectory-chart" class="chart"></div>
-        <div class="legend">
-          <span><span class="legend-swatch bound"></span>Best bound</span>
-          <span><span class="legend-swatch solution"></span>Best solution</span>
-          <span><span class="legend-swatch current"></span>Selected event</span>
-        </div>
-      </section>
-
       <section class="content-grid">
         <aside class="panel sidebar">
           <div class="panel-header">
@@ -100,24 +111,53 @@
         </aside>
 
         <section class="stack">
-          <section class="panel">
-            <div class="panel-header">
+          <section class="panel selected-event-panel">
+            <div class="panel-header selected-event-header">
               <h2>Selected Event</h2>
-              <div class="event-counter" id="event-counter">0 / 0</div>
+              <div class="selected-event-controls">
+                <div class="event-counter" id="event-counter">0 / 0</div>
+                <div class="playback-controls">
+                  <button id="prev-event-button" type="button">Prev</button>
+                  <button id="play-pause-button" type="button">Play</button>
+                  <button id="next-event-button" type="button">Next</button>
+                </div>
+              </div>
             </div>
-            <div id="event-details" class="event-details empty-state">
-              Load a trace to inspect event details.
+            <div class="selected-event-grid">
+              <div>
+                <div class="panel-subheader"><h3>Timeline Info</h3></div>
+                <div id="event-details" class="event-details empty-state">
+                  Load a trace to inspect event details.
+                </div>
+              </div>
+              <div>
+                <div class="panel-subheader"><h3>Bounds Snapshot</h3></div>
+                <div id="event-bounds-view" class="empty-state">
+                  Load a trace to inspect the current bounds snapshot.
+                </div>
+              </div>
+            </div>
+            <div class="selected-event-grid">
+              <div>
+                <div class="panel-subheader"><h3>Variable Bounds</h3></div>
+                <div id="variable-bounds-table"></div>
+              </div>
+              <div>
+                <div class="panel-subheader"><h3>LP Pool</h3></div>
+                <div id="lp-pool-view"></div>
+              </div>
             </div>
           </section>
 
-          <section class="panel two-column">
-            <div>
-              <div class="panel-header"><h2>Variable Bounds</h2></div>
-              <div id="variable-bounds-table"></div>
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Objective Trajectory</h2>
             </div>
-            <div>
-              <div class="panel-header"><h2>LP State</h2></div>
-              <div id="lp-state-view"></div>
+            <div id="trajectory-chart" class="chart"></div>
+            <div class="legend">
+              <span><span class="legend-swatch bound"></span>Best bound</span>
+              <span><span class="legend-swatch solution"></span>Best solution</span>
+              <span><span class="legend-swatch current"></span>Selected event</span>
             </div>
           </section>
 
