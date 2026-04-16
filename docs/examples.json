@@ -1,0 +1,47 @@
+[
+  {
+    "id": "01_lazy_root",
+    "title": "Lazy rows at root",
+    "description": "Shows ChangeLp growing the root LP one row at a time.",
+    "command": "./bazel-bin/ortools/sat/sat_runner --input=examples/sat/lp_debug/01_lazy_rows_vs_all_rows.textproto --visualization_trace_output=examples/sat/lp_debug/generated/01_lazy_root.trace.json --params='cp_model_presolve:false linearization_level:2 num_workers:1 log_search_progress:false log_linear_programming_progress:2 log_to_stdout:true stop_after_root_propagation:true cut_level:0 add_lp_constraints_lazily:true new_constraints_batch_size:1' > examples/sat/lp_debug/generated/01_lazy_root.log 2>&1",
+    "sourceLabel": "Bundled example: Lazy rows at root",
+    "tracePath": "traces/01_lazy_root.trace.json",
+    "logPath": "logs/01_lazy_root.log"
+  },
+  {
+    "id": "01_all_rows_root",
+    "title": "All rows at root",
+    "description": "The same model with eager row loading, so the LP starts full.",
+    "command": "./bazel-bin/ortools/sat/sat_runner --input=examples/sat/lp_debug/01_lazy_rows_vs_all_rows.textproto --visualization_trace_output=examples/sat/lp_debug/generated/01_all_rows_root.trace.json --params='cp_model_presolve:false linearization_level:2 num_workers:1 log_search_progress:false log_linear_programming_progress:2 log_to_stdout:true stop_after_root_propagation:true cut_level:0 add_lp_constraints_lazily:false' > examples/sat/lp_debug/generated/01_all_rows_root.log 2>&1",
+    "sourceLabel": "Bundled example: All rows at root",
+    "tracePath": "traces/01_all_rows_root.trace.json",
+    "logPath": "logs/01_all_rows_root.log"
+  },
+  {
+    "id": "02_full_solve",
+    "title": "Full solve with incumbent",
+    "description": "Includes bound updates, a new incumbent event, and search finish.",
+    "command": "./bazel-bin/ortools/sat/sat_runner --input=examples/sat/lp_debug/02_local_branch_resolve.textproto --visualization_trace_output=examples/sat/lp_debug/generated/02_full_solve.trace.json --params='cp_model_presolve:false linearization_level:2 num_workers:1 log_search_progress:false log_linear_programming_progress:2 log_to_stdout:true cut_level:0 add_lp_constraints_lazily:false search_branching:FIXED_SEARCH' > examples/sat/lp_debug/generated/02_full_solve.log 2>&1",
+    "sourceLabel": "Bundled example: Full solve with incumbent",
+    "tracePath": "traces/02_full_solve.trace.json",
+    "logPath": "logs/02_full_solve.log"
+  },
+  {
+    "id": "03_no_cuts_root",
+    "title": "Product without cuts",
+    "description": "A product constraint that contributes only a cut generator.",
+    "command": "./bazel-bin/ortools/sat/sat_runner --input=examples/sat/lp_debug/03_product_cut_generator.textproto --visualization_trace_output=examples/sat/lp_debug/generated/03_no_cuts_root.trace.json --params='cp_model_presolve:false linearization_level:2 num_workers:1 log_search_progress:false log_linear_programming_progress:2 log_to_stdout:true stop_after_root_propagation:true cut_level:0 add_lp_constraints_lazily:false' > examples/sat/lp_debug/generated/03_no_cuts_root.log 2>&1",
+    "sourceLabel": "Bundled example: Product without cuts",
+    "tracePath": "traces/03_no_cuts_root.trace.json",
+    "logPath": "logs/03_no_cuts_root.log"
+  },
+  {
+    "id": "03_with_cuts_root",
+    "title": "Product with cuts",
+    "description": "The same product example after enabling root cut generation.",
+    "command": "./bazel-bin/ortools/sat/sat_runner --input=examples/sat/lp_debug/03_product_cut_generator.textproto --visualization_trace_output=examples/sat/lp_debug/generated/03_with_cuts_root.trace.json --params='cp_model_presolve:false linearization_level:2 num_workers:1 log_search_progress:false log_linear_programming_progress:2 log_to_stdout:true stop_after_root_propagation:true cut_level:1 add_lp_constraints_lazily:false max_cut_rounds_at_level_zero:3' > examples/sat/lp_debug/generated/03_with_cuts_root.log 2>&1",
+    "sourceLabel": "Bundled example: Product with cuts",
+    "tracePath": "traces/03_with_cuts_root.trace.json",
+    "logPath": "logs/03_with_cuts_root.log"
+  }
+]

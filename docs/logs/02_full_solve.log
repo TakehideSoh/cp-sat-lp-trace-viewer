@@ -1,0 +1,126 @@
+
+Starting CP-SAT solver v9.15.9999
+Parameters: log_search_progress: false search_branching: FIXED_SEARCH cp_model_presolve: false linearization_level: 2 add_lp_constraints_lazily: false log_to_stdout: true cut_level: 0 num_workers: 1 log_linear_programming_progress: 2
+
+Initial optimization model '02_local_branch_resolve': (model_fingerprint: 0x9bdd3e544988351b)
+Search strategy: on 2 variables, CHOOSE_FIRST, SELECT_MIN_VALUE
+#Variables: 2 (#bools: 2 in objective) (2 primary variables)
+  - 2 Booleans in [0,1]
+#kLinear2: 1
+
+Starting presolve at 0.00s
+
+Presolve summary:
+  - 0 affine relations were detected.
+
+Presolved optimization model '02_local_branch_resolve': (model_fingerprint: 0xf1cf5c50e460a4ff)
+Search strategy: on 2 variables, CHOOSE_FIRST, SELECT_MIN_VALUE
+#Variables: 2 (#bools: 2 in objective) (2 primary variables)
+  - 2 Booleans in [0,1]
+#kLinear2: 1
+[Symmetry] Graph for symmetry has 5 nodes and 4 arcs.
+[Symmetry] Symmetry computation done. time: 0.000115418 dtime: 1.13e-06
+[Symmetry] #generators: 1, average support size: 2
+[Symmetry] 1 orbits on 2 variables with sizes: 2
+
+Preloading model.
+#Bound   0.00s best:inf   next:[0,2]      initial_domain
+
+Starting search at 0.00s with 1 workers.
+1 full problem subsolver: [main]
+
+[Precedences] num_relations=0 num_clauses=0
+[Probing] deterministic_time: 0 (limit: 1) wall_time: 3.848e-06 (0/0)
+[LinearRelaxationBeforeCliqueExpansion] #linear:1 #at_most_ones:0
+[FinalLinearRelaxation] #linear:1 #cut_generators:0
+[LP] relaxation-build linear_rows=1 cut_generators=0 connected_components=3 active_lp_components=1 max_component_vars=2
+[LP] register level=0 rows=0 cols=2 managed_constraints=1 cut_generators=0 initial_loading=all_rows objective=yes
+Initial num_bool: 2
+[LP] solve-start level=0 trigger=level_zero_refresh rows=0 cols=2 managed_constraints=1 changed_bounds=0 iter_limit=2000 forced_retries=0
+[LP] solve-done level=0 status=OPTIMAL iterations=0 at_optimal=yes solution_available=yes objective=2 solution_is_integer=yes
+#Bound   0.01s best:inf   next:[2,2]      main
+[LP] analyze level=0 status=OPTIMAL new_integer_bounds=0 objective_lb=2 objective_lb_delta=0
+[LP] skip-cut-generation level=0 reason=cut_level_zero
+[LP] change-lp level=0 added=0 removed=0 rows_now=0 reason=no_more_violated_lazy_constraints_or_cuts root_lp_final=yes scanned=1 violated=0 candidate_limit=0
+
+Starting subsolver 'main' hint search at 0.01s
+Starting subsolver 'main' search at 0.01s
+[LP] solve-start level=0 trigger=level_zero_refresh rows=0 cols=2 managed_constraints=1 changed_bounds=0 iter_limit=2000 forced_retries=0
+[LP] solve-done level=0 status=OPTIMAL iterations=0 at_optimal=yes solution_available=yes objective=2 solution_is_integer=yes
+[LP] analyze level=0 status=OPTIMAL new_integer_bounds=0 objective_lb=2 objective_lb_delta=0
+[LP] skip-cut-generation level=0 reason=cut_level_zero
+[LP] change-lp level=0 added=0 removed=0 rows_now=0 reason=no_more_violated_lazy_constraints_or_cuts root_lp_final=yes scanned=1 violated=0 candidate_limit=0
+[LP] solve-start level=0 trigger=level_zero_refresh rows=0 cols=2 managed_constraints=1 changed_bounds=0 iter_limit=2000 forced_retries=0
+[LP] solve-done level=0 status=OPTIMAL iterations=0 at_optimal=yes solution_available=yes objective=2 solution_is_integer=yes
+[LP] analyze level=0 status=OPTIMAL new_integer_bounds=0 objective_lb=2 objective_lb_delta=0
+[LP] skip-cut-generation level=0 reason=cut_level_zero
+[LP] change-lp level=0 added=0 removed=0 rows_now=0 reason=no_more_violated_lazy_constraints_or_cuts root_lp_final=yes scanned=1 violated=0 candidate_limit=0
+[LP] solve-start level=0 trigger=level_zero_refresh rows=0 cols=2 managed_constraints=1 changed_bounds=0 iter_limit=2000 forced_retries=0
+[LP] solve-done level=0 status=OPTIMAL iterations=0 at_optimal=yes solution_available=yes objective=2 solution_is_integer=yes
+[LP] analyze level=0 status=OPTIMAL new_integer_bounds=0 objective_lb=2 objective_lb_delta=0
+[LP] skip-cut-generation level=0 reason=cut_level_zero
+[LP] change-lp level=0 added=0 removed=0 rows_now=0 reason=no_more_violated_lazy_constraints_or_cuts root_lp_final=yes scanned=1 violated=0 candidate_limit=0
+#1       0.01s best:2     next:[]         main (fixed_bools=2/2)
+#Done    0.01s main
+
+Task timing           n [     min,      max]      avg      dev     time         n [     min,      max]      avg      dev    dtime
+      'main':         1 [  2.31ms,   2.31ms]   2.31ms   0.00ns   2.31ms         1 [ 63.00ns,  63.00ns]  63.00ns   0.00ns  63.00ns
+
+Search stats    Bools  Conflicts  Branches  Restarts  BacktrackToRoot  Backtrack  BoolPropag  IntegerPropag
+       'main':      2          0         0         0                0          0           2              3
+
+SAT formula    Fixed  Equiv  Total  VarLeft  BinaryClauses  PermanentClauses  TemporaryClauses
+      'main':      2      0      2        0              0                 0                 0
+
+SAT stats    ClassicMinim  LitRemoved  LitRemovedBinary  LitLearned  LitForgotten  Subsumed
+    'main':             0           0                 0           0             0         0
+
+Vivification    Clauses  Decisions  LitTrue  Subsumed  LitRemoved  DecisionReused  Conflicts
+       'main':        0          0        0         0           0               0          0
+
+Clause deletion    at_true  l_and_not(l)  to_binary  sub_conflict  sub_extra  sub_decisions  sub_eager  sub_vivify  sub_probing  sub_inpro  blocked  eliminated  forgotten  promoted  conflicts
+          'main':        0             0          0             0          0              0          0           0            0          0        0           0          0         0          0
+
+Lp stats    Component  Iterations  AddedCuts  OPTIMAL  DUAL_F.  DUAL_U.
+   'main':          1           0          0        4        0        0
+
+Lp dimension    Final dimension of first component
+       'main':        0 rows, 2 columns, 0 entries
+
+Lp debug    CutPropag  CutEqPropag  Adjust  Overflow  Bad  BadScaling
+   'main':          0            0       0         0    0           0
+
+Lp pool    Constraints  Updates  Simplif  Merged  Shortened  Split  Strengthened  Cuts/Call
+  'main':            1        0        0       0          1      0             0        0/0
+
+Solutions (1)    Num   Rank
+        'main':    2  [0,1]
+
+Objective bounds     Num
+  'initial_domain':    1
+            'main':    1
+
+Solution repositories    Added  Queried  Synchro
+    'alternative_path':      0        0        0
+      'best_solutions':      1        0        1
+   'fj solution hints':      0        0        0
+
+LRAT_status: NA
+CpSolverResponse summary:
+status: OPTIMAL
+objective: 2
+best_bound: 2
+integers: 3
+booleans: 2
+conflicts: 0
+branches: 0
+propagations: 2
+integer_propagations: 3
+restarts: 0
+lp_iterations: 0
+walltime: 0.00729577
+usertime: 0.00729588
+deterministic_time: 6.3e-08
+gap_integral: 0
+solution_fingerprint: 0x2da215ed3137da36
+

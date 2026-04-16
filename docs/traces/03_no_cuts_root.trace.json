@@ -1,0 +1,857 @@
+{
+ "format_version": "1",
+ "solver_version": "CP-SAT solver v9.15.9999",
+ "problem_name": "03_product_cut_generator",
+ "parameters": {
+  "log_search_progress": false,
+  "restart_algorithms": [],
+  "cp_model_presolve": false,
+  "linearization_level": 2,
+  "add_lp_constraints_lazily": false,
+  "share_level_zero_bounds": false,
+  "use_rins_lns": false,
+  "use_feasibility_pump": false,
+  "log_to_stdout": true,
+  "cut_level": 0,
+  "num_workers": 1,
+  "subsolvers": [],
+  "ignore_subsolvers": [],
+  "subsolver_params": [],
+  "extra_subsolvers": [],
+  "stop_after_root_propagation": true,
+  "filter_subsolvers": [],
+  "log_linear_programming_progress": 2
+ },
+ "input_model": {
+  "name": "03_product_cut_generator",
+  "variables": [
+   {
+    "name": "x",
+    "domain": [
+     "0",
+     "4"
+    ]
+   },
+   {
+    "name": "y",
+    "domain": [
+     "0",
+     "4"
+    ]
+   },
+   {
+    "name": "z",
+    "domain": [
+     "0",
+     "16"
+    ]
+   }
+  ],
+  "constraints": [
+   {
+    "name": "",
+    "enforcement_literal": [],
+    "int_prod": {
+     "target": {
+      "vars": [
+       2
+      ],
+      "coeffs": [
+       "1"
+      ],
+      "offset": "0"
+     },
+     "exprs": [
+      {
+       "vars": [
+        0
+       ],
+       "coeffs": [
+        "1"
+       ],
+       "offset": "0"
+      },
+      {
+       "vars": [
+        1
+       ],
+       "coeffs": [
+        "1"
+       ],
+       "offset": "0"
+      }
+     ]
+    }
+   }
+  ],
+  "objective": {
+   "vars": [
+    2
+   ],
+   "offset": 0,
+   "scaling_factor": -1,
+   "coeffs": [
+    "-1"
+   ],
+   "domain": [],
+   "scaling_was_exact": false,
+   "integer_before_offset": "0",
+   "integer_scaling_factor": "0",
+   "integer_after_offset": "0"
+  },
+  "search_strategy": [],
+  "assumptions": []
+ },
+ "presolved_model": {
+  "name": "03_product_cut_generator",
+  "variables": [
+   {
+    "name": "",
+    "domain": [
+     "0",
+     "4"
+    ]
+   },
+   {
+    "name": "",
+    "domain": [
+     "0",
+     "4"
+    ]
+   },
+   {
+    "name": "",
+    "domain": [
+     "0",
+     "16"
+    ]
+   }
+  ],
+  "constraints": [
+   {
+    "name": "",
+    "enforcement_literal": [],
+    "int_prod": {
+     "target": {
+      "vars": [
+       2
+      ],
+      "coeffs": [
+       "1"
+      ],
+      "offset": "0"
+     },
+     "exprs": [
+      {
+       "vars": [
+        0
+       ],
+       "coeffs": [
+        "1"
+       ],
+       "offset": "0"
+      },
+      {
+       "vars": [
+        1
+       ],
+       "coeffs": [
+        "1"
+       ],
+       "offset": "0"
+      }
+     ]
+    }
+   }
+  ],
+  "objective": {
+   "vars": [
+    2
+   ],
+   "offset": 0,
+   "scaling_factor": -1,
+   "coeffs": [
+    "-1"
+   ],
+   "domain": [
+    "-16",
+    "0"
+   ],
+   "scaling_was_exact": false,
+   "integer_before_offset": "0",
+   "integer_scaling_factor": "0",
+   "integer_after_offset": "0"
+  },
+  "search_strategy": [],
+  "assumptions": []
+ },
+ "setup": {
+  "subsolvers": [
+   "main"
+  ],
+  "propagators": [
+   "LinearProgrammingConstraint",
+   "LinearPropagator",
+   "BinaryImplicationGraph",
+   "ClauseManager",
+   "GenericLiteralWatcher"
+  ],
+  "num_generic_propagators": 4,
+  "num_sat_variables": 0,
+  "num_binary_implications": "0",
+  "num_clauses": "0",
+  "num_removable_clauses": "0"
+ },
+ "lp_components": [
+  {
+   "component_id": 1,
+   "subsolver": "main",
+   "num_columns": 3,
+   "objective_defined": true,
+   "proto_vars": [
+    0,
+    1,
+    2
+   ],
+   "rows": []
+  }
+ ],
+ "events": [
+  {
+   "index": 0,
+   "subsolver": "global",
+   "phase": "model",
+   "kind": "input-model",
+   "title": "Initial model",
+   "message": "Captured the original CpModelProto before presolve.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 0,
+   "fields": [],
+   "variable_bounds": []
+  },
+  {
+   "index": 1,
+   "subsolver": "global",
+   "phase": "presolve",
+   "kind": "presolve-start",
+   "title": "Presolve started",
+   "message": "Running presolve and model expansion.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 0,
+   "fields": [],
+   "variable_bounds": []
+  },
+  {
+   "index": 2,
+   "subsolver": "global",
+   "phase": "presolve",
+   "kind": "presolve-done",
+   "title": "Presolve finished",
+   "message": "The presolved model is ready for search workers.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 0,
+   "fields": [],
+   "variable_bounds": []
+  },
+  {
+   "index": 3,
+   "subsolver": "global",
+   "phase": "search",
+   "kind": "objective-update",
+   "title": "Objective bounds updated",
+   "message": "The global objective interval was tightened.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 0,
+   "fields": [
+    {
+     "key": "change_info",
+     "value": "initial_domain"
+    },
+    {
+     "key": "new_lower_bound",
+     "value": "yes"
+    },
+    {
+     "key": "new_upper_bound",
+     "value": "yes"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "0",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": -0,
+    "scaled_objective_ub": 16,
+    "best_solution_objective": "-Infinity",
+    "best_bound": -0
+   },
+   "variable_bounds": []
+  },
+  {
+   "index": 4,
+   "subsolver": "global",
+   "phase": "search",
+   "kind": "search-start",
+   "title": "Search started",
+   "message": "Launching configured subsolvers.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 0,
+   "fields": [
+    {
+     "key": "num_workers",
+     "value": "1"
+    }
+   ],
+   "variable_bounds": []
+  },
+  {
+   "index": 5,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "relaxation-build",
+   "title": "LP relaxation built",
+   "message": "Computed the initial linear relaxation skeleton.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "linear_rows",
+     "value": "0"
+    },
+    {
+     "key": "cut_generators",
+     "value": "1"
+    },
+    {
+     "key": "connected_components",
+     "value": "4"
+    },
+    {
+     "key": "active_lp_components",
+     "value": "1"
+    },
+    {
+     "key": "max_component_vars",
+     "value": "3"
+    }
+   ],
+   "variable_bounds": []
+  },
+  {
+   "index": 6,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "register",
+   "title": "LP component registered",
+   "message": "Registered one LP component in the worker model.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "rows",
+     "value": "0"
+    },
+    {
+     "key": "cols",
+     "value": "3"
+    },
+    {
+     "key": "managed_constraints",
+     "value": "0"
+    },
+    {
+     "key": "cut_generators",
+     "value": "1"
+    },
+    {
+     "key": "initial_loading",
+     "value": "all_rows"
+    },
+    {
+     "key": "objective",
+     "value": "yes"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": -16,
+    "scaled_objective_ub": 0,
+    "best_solution_objective": 0,
+    "best_bound": -16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 7,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "solve-start",
+   "title": "LP solve started",
+   "message": "Starting an LP solve on the current active rows.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "trigger",
+     "value": "level_zero_refresh"
+    },
+    {
+     "key": "rows",
+     "value": "0"
+    },
+    {
+     "key": "cols",
+     "value": "3"
+    },
+    {
+     "key": "managed_constraints",
+     "value": "0"
+    },
+    {
+     "key": "changed_bounds",
+     "value": "0"
+    },
+    {
+     "key": "iter_limit",
+     "value": "2000"
+    },
+    {
+     "key": "forced_retries",
+     "value": "0"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": 16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": 0,
+    "best_bound": 16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 8,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "solve-done",
+   "title": "LP solve finished",
+   "message": "The LP solver returned a status for the current LP.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "status",
+     "value": "OPTIMAL"
+    },
+    {
+     "key": "iterations",
+     "value": "0"
+    },
+    {
+     "key": "at_optimal",
+     "value": "yes"
+    },
+    {
+     "key": "solution_available",
+     "value": "yes"
+    },
+    {
+     "key": "objective",
+     "value": "-4"
+    },
+    {
+     "key": "solution_is_integer",
+     "value": "yes"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": 16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": 0,
+    "best_bound": 16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 9,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "analyze",
+   "title": "LP result analyzed",
+   "message": "Translated the LP result into CP bounds and explanations.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "status",
+     "value": "OPTIMAL"
+    },
+    {
+     "key": "new_integer_bounds",
+     "value": "0"
+    },
+    {
+     "key": "objective_lb",
+     "value": "-16"
+    },
+    {
+     "key": "objective_lb_delta",
+     "value": "0"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": 16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": 0,
+    "best_bound": 16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 10,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "skip-cut-generation",
+   "title": "Cut generation skipped",
+   "message": "No cut generators were run in this round.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "reason",
+     "value": "cut_level_zero"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": 16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": 0,
+    "best_bound": 16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 11,
+   "subsolver": "main",
+   "phase": "lp",
+   "kind": "change-lp",
+   "title": "No more LP rows to add",
+   "message": "The constraint manager found no more violated rows worth adding.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 1e-08,
+   "fields": [
+    {
+     "key": "added",
+     "value": "0"
+    },
+    {
+     "key": "removed",
+     "value": "0"
+    },
+    {
+     "key": "rows_now",
+     "value": "0"
+    },
+    {
+     "key": "reason",
+     "value": "no_more_violated_lazy_constraints_or_cuts"
+    },
+    {
+     "key": "root_lp_final",
+     "value": "yes"
+    },
+    {
+     "key": "scanned",
+     "value": "0"
+    },
+    {
+     "key": "violated",
+     "value": "0"
+    },
+    {
+     "key": "candidate_limit",
+     "value": "0"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "-16",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": 16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": 0,
+    "best_bound": 16
+   },
+   "variable_bounds": [
+    {
+     "proto_var": 0,
+     "name": "v0",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 1,
+     "name": "v1",
+     "lower_bound": "0",
+     "upper_bound": "4"
+    },
+    {
+     "proto_var": 2,
+     "name": "v2",
+     "lower_bound": "0",
+     "upper_bound": "16"
+    }
+   ],
+   "lp_state": {
+    "component_id": 1,
+    "managed_constraints": 0,
+    "active_rows": 0,
+    "active_row_indices": [],
+    "highlighted_row_indices": [],
+    "candidate_row_indices": []
+   }
+  },
+  {
+   "index": 12,
+   "subsolver": "main",
+   "phase": "setup",
+   "kind": "local-model-ready",
+   "title": "Local model ready",
+   "message": "The presolved model has been loaded into a worker model.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 4e-08,
+   "fields": [
+    {
+     "key": "num_sat_variables",
+     "value": "0"
+    },
+    {
+     "key": "num_generic_propagators",
+     "value": "4"
+    },
+    {
+     "key": "num_binary_implications",
+     "value": "0"
+    },
+    {
+     "key": "num_clauses",
+     "value": "0"
+    }
+   ],
+   "variable_bounds": []
+  },
+  {
+   "index": 13,
+   "subsolver": "global",
+   "phase": "search",
+   "kind": "search-finished",
+   "title": "Search finished",
+   "message": "Returned the final CpSolverResponse.",
+   "decision_level": 0,
+   "num_integer_enqueues": "0",
+   "deterministic_time": 4e-08,
+   "fields": [
+    {
+     "key": "status",
+     "value": "UNKNOWN"
+    },
+    {
+     "key": "objective",
+     "value": "-0"
+    },
+    {
+     "key": "best_bound",
+     "value": "16"
+    }
+   ],
+   "bounds": {
+    "inner_objective_lb": "0",
+    "inner_objective_ub": "0",
+    "scaled_objective_lb": -16,
+    "scaled_objective_ub": -0,
+    "best_solution_objective": -0,
+    "best_bound": 16
+   },
+   "variable_bounds": []
+  }
+ ],
+ "final_response": {
+  "status": "UNKNOWN",
+  "solution": [],
+  "objective_value": -0,
+  "best_objective_bound": 16,
+  "num_booleans": "0",
+  "num_conflicts": "0",
+  "num_branches": "0",
+  "num_binary_propagations": "0",
+  "num_integer_propagations": "0",
+  "wall_time": 0.0062661450000000007,
+  "user_time": 0.0062662360000000005,
+  "deterministic_time": 4e-08,
+  "solution_info": "",
+  "tightened_variables": [],
+  "gap_integral": 0,
+  "sufficient_assumptions_for_infeasibility": [],
+  "num_restarts": "0",
+  "num_lp_iterations": "0",
+  "solve_log": "",
+  "additional_solutions": [],
+  "inner_objective_lower_bound": "-16",
+  "num_integers": "3",
+  "num_fixed_booleans": "0"
+ }
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CP-SAT LP Trace Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <h1>CP-SAT LP Trace Viewer</h1>
+        <p>
+          Inspect the solve timeline, objective trajectory, LP rows, and
+          propagated bounds from a structured trace.
+        </p>
+      </div>
+      <div class="toolbar">
+        <label class="file-picker">
+          <span>Load JSON Trace</span>
+          <input id="trace-file-input" type="file" accept=".json,application/json" />
+        </label>
+        <label>
+          <span>Bundled Example</span>
+          <select id="example-select"></select>
+        </label>
+        <button id="load-example-button" type="button">Load Example</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="panel summary-panel">
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="label">Problem</div>
+            <div class="value" id="summary-problem">No trace loaded</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Final Status</div>
+            <div class="value" id="summary-status">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Best Bound</div>
+            <div class="value" id="summary-bound">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Best Solution</div>
+            <div class="value" id="summary-solution">-</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Events</div>
+            <div class="value" id="summary-events">0</div>
+          </div>
+          <div class="summary-card wide">
+            <div class="label">Trace Source</div>
+            <div class="value small" id="summary-source">Choose a bundled example or load a JSON trace.</div>
+          </div>
+        </div>
+        <div class="example-note" id="example-note"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Objective Trajectory</h2>
+          <div class="playback-controls">
+            <button id="prev-event-button" type="button">Prev</button>
+            <button id="play-pause-button" type="button">Play</button>
+            <button id="next-event-button" type="button">Next</button>
+          </div>
+        </div>
+        <div id="trajectory-chart" class="chart"></div>
+        <div class="legend">
+          <span><span class="legend-swatch bound"></span>Best bound</span>
+          <span><span class="legend-swatch solution"></span>Best solution</span>
+          <span><span class="legend-swatch current"></span>Selected event</span>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <aside class="panel sidebar">
+          <div class="panel-header">
+            <h2>Timeline</h2>
+          </div>
+          <div class="filters">
+            <label>
+              <span>Phase</span>
+              <select id="phase-filter"></select>
+            </label>
+            <label>
+              <span>Kind</span>
+              <select id="kind-filter"></select>
+            </label>
+            <label>
+              <span>Search</span>
+              <input id="event-search-input" type="search" placeholder="kind, title, field..." />
+            </label>
+          </div>
+          <div class="event-list" id="event-list"></div>
+        </aside>
+
+        <section class="stack">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Selected Event</h2>
+              <div class="event-counter" id="event-counter">0 / 0</div>
+            </div>
+            <div id="event-details" class="event-details empty-state">
+              Load a trace to inspect event details.
+            </div>
+          </section>
+
+          <section class="panel two-column">
+            <div>
+              <div class="panel-header"><h2>Variable Bounds</h2></div>
+              <div id="variable-bounds-table"></div>
+            </div>
+            <div>
+              <div class="panel-header"><h2>LP State</h2></div>
+              <div id="lp-state-view"></div>
+            </div>
+          </section>
+
+          <section class="panel two-column">
+            <div>
+              <div class="panel-header"><h2>Setup</h2></div>
+              <div id="setup-summary"></div>
+            </div>
+            <div>
+              <div class="panel-header"><h2>Final Response</h2></div>
+              <div id="final-response-summary"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2>Raw Log</h2></div>
+            <pre id="raw-log-view" class="log-view">No raw log bundled for this trace.</pre>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2>Models</h2></div>
+            <div class="details-grid">
+              <details open>
+                <summary>Input model</summary>
+                <div id="input-model-summary"></div>
+                <pre id="input-model-json" class="json-view"></pre>
+              </details>
+              <details>
+                <summary>Presolved model</summary>
+                <div id="presolved-model-summary"></div>
+                <pre id="presolved-model-json" class="json-view"></pre>
+              </details>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
