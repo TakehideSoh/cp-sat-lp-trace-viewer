@@ -322,12 +322,19 @@
       state.sourceMeta?.title ||
       "Choose a bundled example or load a JSON trace.";
 
-    const noteLines = [];
-    if (state.sourceMeta?.description) noteLines.push(state.sourceMeta.description);
-    if (state.sourceMeta?.command) noteLines.push(`Command: ${state.sourceMeta.command}`);
-    dom.exampleNote.innerHTML = noteLines
-      .map((line) => `<div>${escapeHtml(line)}</div>`)
-      .join("");
+    const noteParts = [];
+    if (state.sourceMeta?.description) {
+      noteParts.push(`<div>${escapeHtml(state.sourceMeta.description)}</div>`);
+    }
+    if (state.sourceMeta?.command) {
+      noteParts.push(`
+        <details class="example-command-details">
+          <summary>Show command</summary>
+          <div class="mono">${escapeHtml(state.sourceMeta.command)}</div>
+        </details>
+      `);
+    }
+    dom.exampleNote.innerHTML = noteParts.join("");
   }
 
   function renderInputOverview() {

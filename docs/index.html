@@ -29,36 +29,8 @@
       </div>
     </header>
 
-    <main class="page">
-      <section class="panel model-overview-panel">
-        <div class="panel-header">
-          <h2>Given Variables And Constraints</h2>
-        </div>
-        <div class="model-overview-grid">
-          <div>
-            <div class="panel-subheader"><h3>Variables</h3></div>
-            <div id="model-variables-view" class="empty-state">
-              Load a trace to inspect the input variables.
-            </div>
-          </div>
-          <div class="stack-compact">
-            <div>
-              <div class="panel-subheader"><h3>Constraints</h3></div>
-              <div id="model-constraints-view" class="empty-state">
-                Load a trace to inspect the input constraints.
-              </div>
-            </div>
-            <div>
-              <div class="panel-subheader"><h3>Objective</h3></div>
-              <div id="model-objective-view" class="empty-state">
-                Load a trace to inspect the objective.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel summary-panel">
+    <main class="page dashboard-page">
+      <section class="panel summary-panel dashboard-summary-panel">
         <div class="summary-grid">
           <div class="summary-card">
             <div class="label">Problem</div>
@@ -88,8 +60,8 @@
         <div class="example-note" id="example-note"></div>
       </section>
 
-      <section class="content-grid">
-        <aside class="panel sidebar">
+      <section class="dashboard-grid">
+        <aside class="panel sidebar dashboard-panel">
           <div class="panel-header">
             <h2>Timeline</h2>
           </div>
@@ -102,7 +74,7 @@
               <span>Kind</span>
               <select id="kind-filter"></select>
             </label>
-            <label>
+            <label class="filters-wide">
               <span>Search</span>
               <input id="event-search-input" type="search" placeholder="kind, title, field..." />
             </label>
@@ -110,8 +82,7 @@
           <div class="event-list" id="event-list"></div>
         </aside>
 
-        <section class="stack">
-          <section class="panel selected-event-panel">
+        <section class="panel selected-event-panel dashboard-panel">
             <div class="panel-header selected-event-header">
               <h2>Selected Event</h2>
               <div class="selected-event-controls">
@@ -123,76 +94,99 @@
                 </div>
               </div>
             </div>
-            <div class="selected-event-grid">
-              <div>
+            <div class="selected-event-layout">
+              <section class="subpanel event-meta-panel">
                 <div class="panel-subheader"><h3>Timeline Info</h3></div>
                 <div id="event-details" class="event-details empty-state">
                   Load a trace to inspect event details.
                 </div>
-              </div>
-              <div>
+              </section>
+              <section class="subpanel event-bounds-panel">
                 <div class="panel-subheader"><h3>Bounds Snapshot</h3></div>
                 <div id="event-bounds-view" class="empty-state">
                   Load a trace to inspect the current bounds snapshot.
                 </div>
-              </div>
-            </div>
-            <div class="selected-event-grid">
-              <div>
+              </section>
+              <section class="subpanel chart-panel">
+                <div class="panel-subheader"><h3>Objective Trajectory</h3></div>
+                <div id="trajectory-chart" class="chart"></div>
+                <div class="legend">
+                  <span><span class="legend-swatch bound"></span>Best bound</span>
+                  <span><span class="legend-swatch solution"></span>Best solution</span>
+                  <span><span class="legend-swatch current"></span>Selected event</span>
+                </div>
+              </section>
+              <section class="subpanel variable-panel">
                 <div class="panel-subheader"><h3>Variable Bounds</h3></div>
                 <div id="variable-bounds-table"></div>
-              </div>
-              <div>
+              </section>
+              <section class="subpanel lp-panel">
                 <div class="panel-subheader"><h3>LP Pool</h3></div>
                 <div id="lp-pool-view"></div>
-              </div>
+              </section>
             </div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-header">
-              <h2>Objective Trajectory</h2>
-            </div>
-            <div id="trajectory-chart" class="chart"></div>
-            <div class="legend">
-              <span><span class="legend-swatch bound"></span>Best bound</span>
-              <span><span class="legend-swatch solution"></span>Best solution</span>
-              <span><span class="legend-swatch current"></span>Selected event</span>
-            </div>
-          </section>
-
-          <section class="panel two-column">
-            <div>
-              <div class="panel-header"><h2>Setup</h2></div>
-              <div id="setup-summary"></div>
-            </div>
-            <div>
-              <div class="panel-header"><h2>Final Response</h2></div>
-              <div id="final-response-summary"></div>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-header"><h2>Raw Log</h2></div>
-            <pre id="raw-log-view" class="log-view">No raw log bundled for this trace.</pre>
-          </section>
-
-          <section class="panel">
-            <div class="panel-header"><h2>Models</h2></div>
-            <div class="details-grid">
-              <details open>
-                <summary>Input model</summary>
-                <div id="input-model-summary"></div>
-                <pre id="input-model-json" class="json-view"></pre>
-              </details>
-              <details>
-                <summary>Presolved model</summary>
-                <div id="presolved-model-summary"></div>
-                <pre id="presolved-model-json" class="json-view"></pre>
-              </details>
-            </div>
-          </section>
         </section>
+
+        <aside class="panel overview-panel dashboard-panel">
+          <div class="panel-header">
+            <h2>Given Variables And Constraints</h2>
+          </div>
+          <div class="overview-sections">
+            <section class="subpanel compact-section overview-variables">
+              <div class="panel-subheader"><h3>Variables</h3></div>
+              <div id="model-variables-view" class="empty-state">
+                Load a trace to inspect the input variables.
+              </div>
+            </section>
+
+            <section class="subpanel compact-section overview-constraints">
+              <div class="panel-subheader"><h3>Constraints</h3></div>
+              <div id="model-constraints-view" class="empty-state">
+                Load a trace to inspect the input constraints.
+              </div>
+            </section>
+
+            <section class="subpanel compact-section">
+              <div class="panel-subheader"><h3>Objective</h3></div>
+              <div id="model-objective-view" class="empty-state">
+                Load a trace to inspect the objective.
+              </div>
+            </section>
+
+            <div class="overview-mini-grid">
+              <section class="subpanel compact-section">
+                <div class="panel-subheader"><h3>Setup</h3></div>
+                <div id="setup-summary"></div>
+              </section>
+
+              <section class="subpanel compact-section">
+                <div class="panel-subheader"><h3>Final Response</h3></div>
+                <div id="final-response-summary"></div>
+              </section>
+            </div>
+
+            <details class="subpanel auxiliary-details">
+              <summary>Raw Log</summary>
+              <pre id="raw-log-view" class="log-view">No raw log bundled for this trace.</pre>
+            </details>
+
+            <details class="subpanel auxiliary-details models-details">
+              <summary>Models</summary>
+              <div class="details-grid">
+                <details open>
+                  <summary>Input model</summary>
+                  <div id="input-model-summary"></div>
+                  <pre id="input-model-json" class="json-view"></pre>
+                </details>
+                <details>
+                  <summary>Presolved model</summary>
+                  <div id="presolved-model-summary"></div>
+                  <pre id="presolved-model-json" class="json-view"></pre>
+                </details>
+              </div>
+            </details>
+          </div>
+        </aside>
       </section>
     </main>
   </body>
